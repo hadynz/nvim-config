@@ -14,13 +14,7 @@ require("lazy").setup({
 
     -- import/override with your plugins
     { import = "plugins" },
-    {
-      "smoka7/hop.nvim",
-      version = "*",
-      opts = {
-        keys = "etovxqpdygfblzhckisuran",
-      },
-    },
+    { "smoka7/hop.nvim", version = "2.7.0" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -31,7 +25,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "tokyonight", "habamax", "catppuccin" } },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     -- disable some rtp plugins
