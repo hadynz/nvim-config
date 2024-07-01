@@ -24,7 +24,9 @@ return {
         require("harpoon"):list():add()
 
         local fileName = vim.fn.expand("%:t")
-        notify({ 'Harpooned "' .. fileName .. '"' })
+        notify('Added "' .. fileName .. '"', vim.log.levels.INFO, {
+          title = "Harpoon",
+        })
       end,
       desc = "Harpoon File",
     },
