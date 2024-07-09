@@ -1,5 +1,3 @@
-local toggleTerm = require("toggleterm")
-
 return {
   {
     "akinsho/toggleterm.nvim",
@@ -14,7 +12,7 @@ return {
         "<leader>tv",
         function()
           local count = vim.v.count1
-          toggleTerm.toggle(count, 0, vim.loop.cwd(), "vertical")
+          require("toggleterm").toggle(count, 0, vim.loop.cwd(), "vertical")
         end,
         desc = "ToggleTerm (vertical)",
       },
@@ -22,7 +20,7 @@ return {
         "<leader>th",
         function()
           local count = vim.v.count1
-          toggleTerm.toggle(count, 10, vim.loop.cwd(), "horizontal")
+          require("toggleterm").toggle(count, 10, vim.loop.cwd(), "horizontal")
         end,
         desc = "ToggleTerm (horizontal)",
       },

@@ -10,7 +10,7 @@ return {
     },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
-      { "<Leader>o", ":Oil --float<CR>", mode = "", desc = "Open Oil" },
+      { "<Leader>m", ":Oil --float<CR>", mode = "", desc = "Open Oil" },
     },
   },
 }

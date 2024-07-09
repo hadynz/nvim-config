@@ -14,9 +14,6 @@ require("lazy").setup({
 
     -- import/override with your plugins
     { import = "plugins" },
-    { "smoka7/hop.nvim", version = "2.7.0" },
-    { "lbrayner/vim-rzip" }, -- Required for Yarn PnP
-    { "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
