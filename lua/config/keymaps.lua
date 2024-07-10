@@ -34,7 +34,7 @@ map("n", "<Space>w", ":w<CR>", { desc = "Save file" })
 
 -- LSP keymaps
 map("n", "ga", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" })
+-- map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" })
 map("n", "gR", telescope_builtin_utils.lsp_references, { desc = "Find all references" })
 map("n", "gh", vim.lsp.buf.hover, { desc = "Show hint" })
 map("n", "gH", vim.lsp.buf.signature_help, { desc = "Signature help" })
@@ -48,6 +48,11 @@ map("n", "]o", "m`o<esc>d0x``", { desc = "Empty line below" })        -- new lin
 map("n", "<Leader>O", "m`O<esc>d0x``", { desc = "Empty line above" }) -- new line before
 map("n", "<Leader>o", "m`o<esc>d0x``", { desc = "Empty line below" }) -- new line after
 map("n", "[p", "m`P``", { desc = "Paste before" })                    -- paste before
+
+-- Telescope
+map("n", "<C-p>", telescope_builtin_utils.git_files, { desc = "Find File" })
+map("n", "<Leader><Leader>a", telescope_builtin_utils.commands, { desc = "Find Action" })
+map("n", "<Leader>r", telescope_builtin_utils.oldfiles, { desc = "Recent Files" })
 
 -- nmap gA :action InspectCode<cr>
 -- nmap gA :action InspectCode<cr>
