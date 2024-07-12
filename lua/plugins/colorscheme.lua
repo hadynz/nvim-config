@@ -6,6 +6,8 @@ return {
       flavour = "mocha",
     },
   },
+
+  -- Set catppuccin as default theme for LazyVim
   {
     "LazyVim/LazyVim",
     opts = {

@@ -2,6 +2,10 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      diagnostics = {
+        -- hide inline errors/warnings in editor
+        virtual_text = false
+      },
       servers = {
         vtsls = {
           -- Required to inform LSP server to send `zipfile:` URI as `zip:` (Yarn PNP need)

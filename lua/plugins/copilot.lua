@@ -1,11 +1,16 @@
 return {
-  "zbirenbaum/copilot.lua",
-  enabled = false,
-  opts = {
-    panel = {
-      keymap = {
-        accept = "<Tab>",
+  {
+    "zbirenbaum/copilot.lua",
+    opts = {
+      suggestion = {
+        enabled = true
+      },
+      panel = {
+        enabled = true
       }
     }
+  },
+  {
+    "zbirenbaum/copilot-cmp",
   }
 }

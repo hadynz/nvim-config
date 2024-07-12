@@ -10,6 +10,6 @@ local opt = vim.opt
 
 -- Set listchars
 opt.list = true
-opt.listchars:append "space:⋅"
-opt.listchars:append "tab:» "
-opt.listchars:append "trail:~"
+opt.listchars:append("space:⋅")
+opt.listchars:append("tab:» ")
+opt.listchars:append("trail:~")

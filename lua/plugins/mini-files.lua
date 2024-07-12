@@ -43,7 +43,7 @@ return {
   version = "*",
   opts = {
     content = {
-      filter = filter_hide
+      filter = filter_hide,
     },
 
     mappings = {
@@ -62,7 +62,7 @@ return {
   },
   keys = {
     {
-      "<leader>e",
+      "<leader>E",
       function()
         local lazyvimRoot = require("lazyvim.util.root")
         toggle_minifiles(lazyvimRoot.git(), true)
@@ -70,7 +70,7 @@ return {
       desc = "Open mini.files (Git dir)",
     },
     {
-      "<leader>E",
+      "<leader>e",
       function()
         toggle_minifiles(vim.api.nvim_buf_get_name(0), true)
       end,

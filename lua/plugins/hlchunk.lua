@@ -4,12 +4,12 @@ return {
   opts = {
     line_num = {
       enable = true,
-      -- use_treesitter = true,
+      use_treesitter = true,
       -- style = "#00ffff",
     },
     chunk = {
       enable = true,
-      -- use_treesitter = true,
+      use_treesitter = true,
       chars = {
         horizontal_line = "─",
         vertical_line = "│",
