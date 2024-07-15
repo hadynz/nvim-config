@@ -8,8 +8,12 @@
 
 local opt = vim.opt
 
+-- Configure tab to use space characters, never tab characters
+opt.expandtab = true
+
 -- Set listchars
 opt.list = true
 opt.listchars:append("space:⋅")
 opt.listchars:append("tab:» ")
 opt.listchars:append("trail:~")
+
