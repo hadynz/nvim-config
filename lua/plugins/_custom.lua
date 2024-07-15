@@ -1,6 +1,5 @@
 return {
   -- Install plugins (with no config)
-  { "smoka7/hop.nvim", version = "2.7.0" },
   { "lbrayner/vim-rzip" }, -- Required for Yarn PnP
   { "linrongbin16/gitlinker.nvim", cmd = "GitLink", opts = {} }, -- Open git files remotely
 

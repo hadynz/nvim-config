@@ -1,3 +1,10 @@
+local paste_at_char = function()
+  local hop = require("hop-yank")
+  hop.paste_char1({
+    hint_offset = -1,
+  })
+end
+
 return {
   -- `hop` is an EasyMotion-like plugin allowing you to jump anywhere in a
   -- document with as few keystrokes as possible.
@@ -6,22 +13,15 @@ return {
     version = "*",
     main = "hop",
     opts = {
-      keys = "hklyuiopnm,qwertzxcvbasdgjf;",
+      multi_windows = true,
     },
     keys = {
-      {
-        "<leader><leader>w",
-        "<cmd>HopWord<cr>",
-        mode = "",
-        desc = "Hop to all words in the visible buffer; most useful!",
-      },
-      { "<leader><leader>l", "<cmd>HopLine<cr>", mode = "", desc = "Hop to the first column of each visible line" },
-      {
-        "<leader><leader>s",
-        "<cmd>HopLineStart<cr>",
-        mode = "",
-        desc = "Hop to the first non-whitespace character of each line",
-      },
+      { "<leader><leader>w", "<cmd>HopCamelCase<cr>",       desc = "Hop to word" },
+      { "<leader><leader>l", "<cmd>HopWordCurrentLine<cr>", desc = "Hop to word on current line" },
+      { "<leader><leader>p", paste_at_char,                 desc = "Hop paste" },
+      { "<leader><leader>n", "<cmd>HopNodes<cr>",           desc = "Hop to tree node" },
+      { "<leader><leader>s", "<cmd>HopLineStart<cr>",       desc = "Hop to line start" },
+      { "<leader><leader>/", "<cmd>HopPattern<cr>",         desc = "Hop to pattern" },
     },
   },
 
