@@ -3,6 +3,7 @@ local actions = require("telescope.actions")
 return {
   {
     "nvim-telescope/telescope.nvim",
+
     opts = {
       defaults = {
         mappings = {
@@ -13,8 +14,13 @@ return {
         },
       },
     },
+
+    keys = {
+      { "<Leader><space>", false }
+    }
   },
 
+  -- Customise look and feel of Telescope
   {
     "catppuccin/nvim",
     opts = {
