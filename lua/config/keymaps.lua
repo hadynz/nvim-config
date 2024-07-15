@@ -1,6 +1,8 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
+M = {}
+
 local telescope_builtin_utils = require("telescope.builtin")
 local map = LazyVim.safe_keymap_set
 
@@ -27,7 +29,7 @@ map({ "n", "i" }, "<Esc>", function()
       vim.api.nvim_win_close(win, false)
     end
   end
-end, { desc = "Clear aigalight of search, messages, floating windows" })
+end, { desc = "Clear highlight search, messages, floating windows" })
 
 -- Keep cursor centered when navigating
 map("n", "<C-u>", "<C-u>zz", { desc = "Keep cursor centered" })
@@ -50,15 +52,34 @@ map("n", "cll", "yiw%ocll'<Esc>pwa, <Esc>p3b", { desc = "Copy current work and p
 map("n", "<Leader>p", ":YankHistory<CR>", { desc = "Yank History Picker" })
 map("i", "<C-r>p", require("telescope").extensions.yank_history.yank_history, { desc = "Yank History Picker" })
 
+-- In insert mode, either move cursor right, or trigger next copilot suggestion
+local move_right = function()
+  local copilot = require("copilot.suggestion")
+  if copilot.is_visible() then
+    copilot.next()
+    return
+  else
+    vim.cmd("normal! l")
+  end
+end
+-- In insert mode, either move cursor left, or trigger previous copilot suggestion
+local move_left = function()
+  local copilot = require("copilot.suggestion")
+  if copilot.is_visible() then
+    copilot.prev()
+    return
+  else
+    vim.cmd("normal! h")
+  end
+end
+
 -- HJKL insert mode navigation
-map("i", "<C-h>", "<Left>", { desc = "Move cursor left" })
+map("i", "<C-h>", move_left, { desc = "Move cursor left" })
 map("i", "<C-j>", "<Down>", { desc = "Move cursor down" })
 map("i", "<C-k>", "<Up>", { desc = "Move cursor up" })
-map("i", "<C-l>", "<Right>", { desc = "Move cursor right" })
+map("i", "<C-l>", move_right, { desc = "Move cursor right" })
 
--- Space W to save file
-map("n", "<Space>w", ":w<CR>", { desc = "Save file" })
-map("n", "<Space>q", ":q<CR>", { desc = "Quit buffer" })
+
 
 -- LSP keymaps
 map("n", "ga", vim.lsp.buf.code_action, { desc = "Code action" })
@@ -68,6 +89,10 @@ map("n", "gh", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "gd", vim.lsp.buf.definition, { desc = "Goto definition" })
 map("n", "go", LazyVim.lsp.action["source.organizeImports"], { desc = "Format" })
 map("n", "==", vim.lsp.buf.format, { desc = "Format" })
+
+-- Diagnostics
+map("n", "<M-j>", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+map("n", "<A-k>", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 
 -- Git
 map("n", "gb", "<cmd>GitLink! default_branch<CR>", { desc = "Open Remote File (main)" })
@@ -80,6 +105,9 @@ map("n", "]o", "m`o<esc>d0x``", { desc = "Empty line below" })        -- new lin
 map("n", "<Leader>O", "m`O<esc>d0x``", { desc = "Empty line above" }) -- new line before
 map("n", "<Leader>o", "m`o<esc>d0x``", { desc = "Empty line below" }) -- new line after
 map("n", "[p", "m`P``", { desc = "Paste before" })                    -- paste before
+
+-- No yank on visual paste
+map("v", "p", "P", { noremap = true, silent = true })
 
 -- Telescope
 map("n", "<C-p>", telescope_builtin_utils.git_files, { desc = "Find File" }) -- iTerm maps Cmd+p to Ctrl+p
@@ -97,43 +125,18 @@ local resolve_file_path = function()
     local path = index == 1 and vim.fn.expand("%") or vim.fn.expand("%:p")
     copy_file_path(path)
   end
-  vim.ui.select({ "Copy relative file path", "Copy absolute file path" }, { prompt = "Copy File Path" }, choice_callback)
+  vim.ui.select(
+    { "Copy relative file path", "Copy absolute file path" },
+    { prompt = "Copy File Path" },
+    choice_callback
+  )
 end
 map("n", "<Leader>yf", resolve_file_path, { desc = "Copy File Path" })
 
--- nmap gA :action InspectCode<cr>
--- nmap gA :action InspectCode<cr>
--- nmap gA :action InspectCode<cr>
--- nmap gA :action InspectCode<cr>
--- " editor actions
--- nmap gA :action InspectCode<cr>
--- nmap gi :action GotoImplementation<cr>
--- nmap gd :action GotoDeclaration<cr>
--- nmap gj :action RunContextGroup<cr>
--- nmap gJ :action ChooseRunConfiguration<cr>
--- nmap gr :action Refactorings.QuickListPopupAction<cr>
--- nmap gR :action FindUsagesMenuGroup<cr>
--- nmap gs :action FileStructurePopup<cr>
--- nmap gp :action SelectInProjectView<cr>
--- nmap gb :action SelectIn<cr>
--- nmap gh :action QuickJavaDoc<cr>
--- nmap ge :action ShowErrorDescription<cr>
--- nmap gH :action ShowErrorDescription<cr>
--- nmap gt :action GotoTest<cr>
--- nmap gf :action CollapseRegion<cr>
--- nmap gF :action ExpandAllToLevel1<cr>
--- nmap ge :action ExpandRegion<cr>
--- nmap gE :action ExpandAllRegions<cr>
---
--- " Quick global IDE commands
--- nnoremap <Leader>/ :action FindInPath<cr>
--- nmap <leader>b :action ToggleLineBreakpoint<cr>
--- nmap <leader>x :action HideAllWindows<cr>
--- nmap <leader>a :action GotoAction<cr>
--- nmap <leader>r :action RecentFiles<cr>
--- nmap <leader>R :action RecentLocations<cr>
--- nmap <leader>j :action FileStructurePopup<cr>
---
--- " code formatting
--- nmap == :action ReformatCode<cr>
--- nmap go :action OptimizeImports<cr>
+function M.setup_copilot_keymaps()
+  return {
+    { "<leader>ap", ":Copilot panel<CR>", desc = "Copilot panel" },
+  }
+end
+
+return M
