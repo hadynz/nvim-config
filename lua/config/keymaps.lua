@@ -17,6 +17,9 @@ map("n", "<C-]>", "<C-i>", { desc = "Navigate forward" })
 map({ "n", "v" }, "c", '"_c', { desc = "Change without yank" })
 map({ "n", "v" }, "C", '"_C', { desc = "Change without yank" })
 
+-- Using char delete without yank
+map({ "n", "v" }, "x", '"_x', { desc = "Char delete without yank" })
+
 -- Using delete without yank
 map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without yank" })
 
