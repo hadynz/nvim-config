@@ -24,6 +24,7 @@ return {
       },
       filetypes = {},
     },
+
     config = function(_, opts)
       require("copilot").setup(opts)
 

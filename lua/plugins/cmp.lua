@@ -11,7 +11,7 @@ return {
         autocomplete = false,
       }
 
-      -- Add borders for more clarity
+      -- Add borders -or more clarity
       opts.window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
