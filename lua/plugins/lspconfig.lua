@@ -7,6 +7,20 @@ return {
         virtual_text = false
       },
       servers = {
+        tsserver = {
+          init_options = {
+            hostInfo = "neovim",
+            maxTsServerMemory = 18432,
+            -- tsserver = {
+            --   logFile = vim.fn.stdpath("cache") .. "/tsserver.log",
+            --   logVerbosity = "verbose",
+            --   logLevel = "verbose",
+            --   telemetry = {
+            --     enable = false,
+            --   },
+            -- }
+          }
+        },
         vtsls = {
           -- Required to inform LSP server to send `zipfile:` URI as `zip:` (Yarn PNP need)
           init_options = { hostInfo = "neovim" },
