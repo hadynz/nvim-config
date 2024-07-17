@@ -4,7 +4,20 @@
 M = {}
 
 local telescope_builtin_utils = require("telescope.builtin")
-local map = LazyVim.safe_keymap_set
+
+-- Custom keymap function that checks if a lazy keys handler exists before creating a keymap
+-- @see https://github.com/aserowy/tmux.nvim/issues/92#issuecomment-1873710733
+local function map(mode, lhs, rhs, opts)
+  local keys = require("lazy.core.handler").handlers.keys
+
+  ---@cast keys LazyKeysHandler
+  -- do not create the keymap if a lazy keys handler exists
+  if not keys.active[keys.parse({ lhs, mode = mode }).id] then
+    opts = opts or {}
+    opts.silent = opts.silent ~= false
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+end
 
 -- Redo
 map("n", "U", "<C-r>", { desc = "Redo" })
@@ -116,6 +129,13 @@ map("v", "p", "P", { noremap = true, silent = true })
 map("n", "<C-p>", telescope_builtin_utils.git_files, { desc = "Find File" }) -- iTerm maps Cmd+p to Ctrl+p
 map("n", "<Leader>a", telescope_builtin_utils.commands, { desc = "Find Action" })
 -- map("n", "<Leader>r", telescope_builtin_utils.oldfiles, { desc = "Recent Files" })
+
+-- TMUX navigation
+map("n", "<C-h>", "<cmd>lua require'tmux'.move_left()<cr>", { desc = "Go to left window" })
+map("n", "<C-j>", "<cmd>lua require'tmux'.move_bottom()<cr>", { desc = "Go to lower window" })
+map("n", "<C-k>", "<cmd>lua require'tmux'.move_top()<cr>", { desc = "Go to upper window" })
+map("n", "<C-l>", "<cmd>lua require'tmux'.move_right()<cr>", { desc = "Go to right window" })
+map("n", "<C-y>", "<cmd>:silent !tmux split-window<cr>", { desc = "New terminal" }) -- <C-y> is mapped to <C-`> in iTerm
 
 -- Copy File Path
 local copy_file_path = function(path)
