@@ -1,6 +1,7 @@
 return {
   {
     "nvim-neotest/neotest",
+    enabled = false,
     dependencies = {
       "haydenmeade/neotest-jest",
       "marilari88/neotest-vitest",

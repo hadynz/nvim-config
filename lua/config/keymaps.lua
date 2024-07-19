@@ -65,8 +65,8 @@ map("i", "cll", "console.log();<ESC>F(a", { desc = "Paste console log snippet" }
 map("n", "cll", "yiw%ocll'<Esc>pwa, <Esc>p3b", { desc = "Copy current work and paste console log snippet" })
 
 -- Yank History Picker
-map("n", "<Leader>p", ":YankHistory<CR>", { desc = "Yank History Picker" })
-map("i", "<C-r>p", require("telescope").extensions.yank_history.yank_history, { desc = "Yank History Picker" })
+map("n", "<Leader>p", require("telescope").extensions.yank_history.yank_history, { desc = "Yank History Picker" })
+map("i", "<C-r>", require("telescope").extensions.yank_history.yank_history, { desc = "Yank History Picker" })
 
 -- In insert mode, either move cursor right, or trigger next copilot suggestion
 local move_right = function()
@@ -95,8 +95,6 @@ map("i", "<C-j>", "<Down>", { desc = "Move cursor down" })
 map("i", "<C-k>", "<Up>", { desc = "Move cursor up" })
 map("i", "<C-l>", move_right, { desc = "Move cursor right" })
 
-
-
 -- LSP keymaps
 map("n", "ga", vim.lsp.buf.code_action, { desc = "Code action" })
 -- map("n", "gr", vim.lsp.buf.rename, { desc = "Rename" })
@@ -111,8 +109,8 @@ map("n", "<M-j>", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 map("n", "<A-k>", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 
 -- Git
-map("n", "gb", "<cmd>GitLink! default_branch<CR>", { desc = "Open Remote File (main)" })
-map("n", "gB", "<cmd>GitLink!<CR>", { desc = "Open Remote File" })
+map("n", "<Leader>gr", "<cmd>GitLink! default_branch<CR>", { desc = "Open Remote File (main)" })
+map("n", "<Leader>gR", "<cmd>GitLink!<CR>", { desc = "Open Remote File" })
 map("n", "<Leader>gB", "<cmd>GitLink! blame<CR>", { desc = "Open Remote File with Blame" })
 
 -- Before/After
@@ -128,14 +126,16 @@ map("v", "p", "P", { noremap = true, silent = true })
 -- Telescope
 map("n", "<C-p>", telescope_builtin_utils.git_files, { desc = "Find File" }) -- iTerm maps Cmd+p to Ctrl+p
 map("n", "<Leader>a", telescope_builtin_utils.commands, { desc = "Find Action" })
--- map("n", "<Leader>r", telescope_builtin_utils.oldfiles, { desc = "Recent Files" })
 
 -- TMUX navigation
 map("n", "<C-h>", "<cmd>lua require'tmux'.move_left()<cr>", { desc = "Go to left window" })
 map("n", "<C-j>", "<cmd>lua require'tmux'.move_bottom()<cr>", { desc = "Go to lower window" })
 map("n", "<C-k>", "<cmd>lua require'tmux'.move_top()<cr>", { desc = "Go to upper window" })
 map("n", "<C-l>", "<cmd>lua require'tmux'.move_right()<cr>", { desc = "Go to right window" })
-map("n", "<C-y>", "<cmd>:silent !tmux split-window<cr>", { desc = "New terminal" }) -- <C-y> is mapped to <C-`> in iTerm
+map("n", "<C-Up>", "<cmd>lua require'tmux'.resize_top()<cr>", { desc = "Resize top" })
+map("n", "<C-Down>", "<cmd>lua require'tmux'.resize_bottom()<cr>", { desc = "Resize bottom" })
+map("n", "<C-Left>", "<cmd>lua require'tmux'.resize_left()<cr>", { desc = "Resize left" })
+map("n", "<C-Right>", "<cmd>lua require'tmux'.resize_right()<cr>", { desc = "Resize right" })
 
 -- Copy File Path
 local copy_file_path = function(path)
