@@ -41,8 +41,8 @@ map("n", "s", "<nop>", { desc = "Disable default `s` keybind" })
 
 -- Clear highlight of search, messages, floating windows
 map({ "n", "i" }, "<Esc>", function()
-  vim.cmd([[nohl]]) -- clear highlight of search
-  vim.cmd([[stopinsert]]) -- clear messages (the line below statusline)
+  vim.cmd([[nohl]])                                 -- clear highlight of search
+  vim.cmd([[stopinsert]])                           -- clear messages (the line below statusline)
   for _, win in ipairs(vim.api.nvim_list_wins()) do -- clear all floating windows
     if vim.api.nvim_win_get_config(win).relative == "win" then
       vim.api.nvim_win_close(win, false)
@@ -66,8 +66,8 @@ map("n", "dd", function()
 end, { expr = true })
 
 -- Console Log snippet
-map("i", "cll", "console.log();<ESC>F(a", { desc = "Paste console log snippet" })
-map("n", "cll", "yiw%ocll'<Esc>pwa, <Esc>p3b", { desc = "Copy current work and paste console log snippet" })
+vim.api.nvim_set_keymap("i", "cll", "console.log();<ESC>F(a", { noremap = false, silent = true })
+vim.api.nvim_set_keymap("n", "cll", "yiw%ocll'<Esc>pla, <Esc>p2b", { noremap = false, silent = true })
 
 -- Yank History Picker
 map("n", "<Leader>p", require("telescope").extensions.yank_history.yank_history, { desc = "Yank History Picker" })
