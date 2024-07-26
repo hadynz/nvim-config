@@ -36,10 +36,13 @@ map({ "n", "v" }, "x", '"_x', { desc = "Char delete without yank" })
 -- Using delete without yank
 map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without yank" })
 
+-- Disable default `s` keybind - reusing it for `hop`
+map("n", "s", "<nop>", { desc = "Disable default `s` keybind" })
+
 -- Clear highlight of search, messages, floating windows
 map({ "n", "i" }, "<Esc>", function()
-  vim.cmd([[nohl]])                                 -- clear highlight of search
-  vim.cmd([[stopinsert]])                           -- clear messages (the line below statusline)
+  vim.cmd([[nohl]]) -- clear highlight of search
+  vim.cmd([[stopinsert]]) -- clear messages (the line below statusline)
   for _, win in ipairs(vim.api.nvim_list_wins()) do -- clear all floating windows
     if vim.api.nvim_win_get_config(win).relative == "win" then
       vim.api.nvim_win_close(win, false)
@@ -48,12 +51,14 @@ map({ "n", "i" }, "<Esc>", function()
 end, { desc = "Clear highlight search, messages, floating windows" })
 
 -- Keep cursor centered when navigating
-map("n", "<C-u>", "<C-u>zz", { desc = "Keep cursor centered" })
-map("n", "<C-d>", "<C-d>zz", { desc = "Keep cursor centered" })
+map("n", "k", "kzz", { desc = "Keep cursor centered on up" })
+map("n", "j", "jzz", { desc = "Keep cursor centered on down" })
+map("n", "<C-u>", "<C-u>zz", { desc = "Keep cursor centered on page up" })
+map("n", "<C-d>", "<C-d>zz", { desc = "Keep cursor centered on page down" })
 
--- Mapping for dd that doesn't yank an empty line into your default register:
+-- Mapping for dd that doesn't yank a single empty line into the default register:
 map("n", "dd", function()
-  if vim.api.nvim_get_current_line():match("^%s*$") then
+  if vim.v.count == 0 and vim.api.nvim_get_current_line():match("^%s*$") then
     return '"_dd'
   else
     return "dd"
@@ -136,6 +141,9 @@ map("n", "<C-Up>", "<cmd>lua require'tmux'.resize_top()<cr>", { desc = "Resize t
 map("n", "<C-Down>", "<cmd>lua require'tmux'.resize_bottom()<cr>", { desc = "Resize bottom" })
 map("n", "<C-Left>", "<cmd>lua require'tmux'.resize_left()<cr>", { desc = "Resize left" })
 map("n", "<C-Right>", "<cmd>lua require'tmux'.resize_right()<cr>", { desc = "Resize right" })
+
+-- Mouse selection copies to clipboard
+map("v", "<LeftRelease>", '"*ygv', { desc = "Mouse selection copies to clipboard" })
 
 -- Copy File Path
 local copy_file_path = function(path)
