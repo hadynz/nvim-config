@@ -29,8 +29,7 @@ local function mapSymbols(status)
     -- stylua: ignore end
   }
 
-  local result = statusMap[status]
-      or { symbol = "?", hlGroup = "NonText" }
+  local result = statusMap[status] or { symbol = "?", hlGroup = "NonText" }
   return result.symbol, result.hlGroup
 end
 
@@ -43,11 +42,7 @@ local function fetchGitStatus(cwd, callback)
       vim.g.content = content.stdout
     end
   end
-  vim.system(
-    { "git", "status", "--ignored", "--porcelain" },
-    { text = true, cwd = cwd },
-    on_exit
-  )
+  vim.system({ "git", "status", "--ignored", "--porcelain" }, { text = true, cwd = cwd }, on_exit)
 end
 
 local function escapePattern(str)
@@ -57,18 +52,15 @@ end
 local function updateMiniWithGit(buf_id, gitStatusMap)
   vim.schedule(function()
     local nlines = vim.api.nvim_buf_line_count(buf_id)
-    local cwd = vim.fn.getcwd() --  vim.fn.expand("%:p:h")
-    local escapedcwd = escapePattern(cwd)
-    if vim.fn.has("win32") == 1 then
-      escapedcwd = escapedcwd:gsub("\\", "/")
-    end
+    local root_dir = vim.fs.root(vim.fn.getcwd(), ".git")
+    local escaped_root_dir = escapePattern(root_dir)
 
     for i = 1, nlines do
       local entry = MiniFiles.get_fs_entry(buf_id, i)
       if not entry then
         break
       end
-      local relativePath = entry.path:gsub("^" .. escapedcwd .. "/", "")
+      local relativePath = entry.path:gsub("^" .. escaped_root_dir .. "/", "")
       local status = gitStatusMap[relativePath]
 
       if status then
@@ -88,9 +80,8 @@ local function updateMiniWithGit(buf_id, gitStatusMap)
   end)
 end
 
-
 local function is_valid_git_repo()
-  if vim.fn.isdirectory(".git") == 0 then
+  if vim.fs.root(vim.fn.getcwd(), ".git") == "" then
     return false
   end
   return true
@@ -136,10 +127,7 @@ local function updateGitStatus(buf_id)
   end
   local cwd = vim.fn.expand("%:p:h")
   local currentTime = os.time()
-  if
-      gitStatusCache[cwd]
-      and currentTime - gitStatusCache[cwd].time < cacheTimeout
-  then
+  if gitStatusCache[cwd] and currentTime - gitStatusCache[cwd].time < cacheTimeout then
     updateMiniWithGit(buf_id, gitStatusCache[cwd].statusMap)
   else
     fetchGitStatus(cwd, function(content)
@@ -158,10 +146,7 @@ local function clearCache()
 end
 
 local function augroup(name)
-  return vim.api.nvim_create_augroup(
-    "MiniFiles_" .. name,
-    { clear = true }
-  )
+  return vim.api.nvim_create_augroup("MiniFiles_" .. name, { clear = true })
 end
 
 autocmd("User", {
