@@ -1,3 +1,7 @@
+local show_which_key = function()
+  require("which-key").show("s")
+end
+
 local paste_at_char = function()
   local hop = require("hop-yank")
   hop.paste_char1({
@@ -23,23 +27,15 @@ return {
       multi_windows = true,
     },
     keys = {
-      { "<leader><leader>w", "<cmd>HopCamelCase<cr>", desc = "Hop to word" },
-      { "<leader><leader>e", hop_end_of_word, desc = "Hop to word ends" },
-      { "<leader><leader>l", "<cmd>HopWordCurrentLine<cr>", desc = "Hop to word on current line" },
-      { "<leader><leader>p", paste_at_char, desc = "Hop paste" },
-      { "<leader><leader>n", "<cmd>HopNodes<cr>", desc = "Hop to tree node" },
-      { "<leader><leader>s", "<cmd>HopLineStart<cr>", desc = "Hop to line start" },
-      { "<leader><leader>/", "<cmd>HopPattern<cr>", desc = "Hop to pattern" },
-    },
-  },
-
-  -- Register the `<leader>h` prefix as with a group name in which-key.
-  {
-    "folke/which-key.nvim",
-    opts = {
-      defaults = {
-        ["<leader><leader>"] = { name = "+hop" },
-      },
+      { "ss", "<cmd>HopCamelCase<cr>",       desc = "Hop to word",                 mode = { "n", "v", "x", "o" } },
+      { "se", hop_end_of_word,               desc = "Hop to word ends",            mode = { "n", "v", "x", "o" } },
+      { "sl", "<cmd>HopWordCurrentLine<cr>", desc = "Hop to word on current line", mode = { "n", "v", "x", "o" } },
+      { "sp", paste_at_char,                 desc = "Hop paste",                   mode = { "n", "v", "x", "o" } },
+      { "sn", "<cmd>HopNodes<cr>",           desc = "Hop to tree node",            mode = { "n", "v", "x", "o" } },
+      { "s0", "<cmd>HopLine<cr>",            desc = "Hop to line",                 mode = { "n", "v", "x", "o" } },
+      { "s_", "<cmd>HopLineStart<cr>",       desc = "Hop to line start",           mode = { "n", "v", "x", "o" } },
+      { "s/", "<cmd>HopPattern<cr>",         desc = "Hop to pattern",              mode = { "n", "v", "x", "o" } },
+      { "s",  show_which_key,                desc = "Show which-key" },
     },
   },
 }
