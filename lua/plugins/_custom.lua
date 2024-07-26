@@ -7,4 +7,5 @@ return {
   { "nvim-neo-tree/neo-tree.nvim", enabled = false }, -- Replaced with mini.files
   { "akinsho/bufferline.nvim", enabled = false }, -- Disable buffer tabs
   { "lukas-reineke/indent-blankline.nvim", enabled = false },
+  { "folke/flash.nvim", enabled = false }, -- Disable flash; go all in on hop
 }
