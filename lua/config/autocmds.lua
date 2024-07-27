@@ -10,3 +10,14 @@ vim.api.nvim_create_autocmd("BufEnter", {
   desc = "Disable New Line Comment",
 })
 
+-- Toggle relative numbers for active panes only
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter", "FocusGained" }, {
+  callback = function()
+    vim.wo.relativenumber = true
+  end,
+})
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave", "FocusLost" }, {
+  callback = function()
+    vim.wo.relativenumber = false
+  end,
+})
