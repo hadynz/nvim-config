@@ -145,6 +145,8 @@ map("n", "<C-Right>", "<cmd>lua require'tmux'.resize_right()<cr>", { desc = "Res
 -- Mouse selection copies to clipboard
 map("v", "<LeftRelease>", '"*ygv', { desc = "Mouse selection copies to clipboard" })
 
+map("n", "<leader>ug", "<cmd>:lua require('tint').toggle()<cr>", { desc = "Toggle tint" })
+
 -- Copy File Path
 local copy_file_path = function(path)
   vim.fn.setreg("+", path)
